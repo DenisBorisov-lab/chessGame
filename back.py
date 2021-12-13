@@ -29,8 +29,8 @@ def generate_field():
 
     field[0][2] = black_bishop
     field[0][5] = black_bishop
-    field[7][2] = black_bishop
-    field[7][5] = black_bishop
+    field[7][2] = white_bishop
+    field[7][5] = white_bishop
 
     field[0][3] = black_queen
     field[0][4] = black_king
@@ -53,4 +53,4 @@ def generate_field():
         else:
             print(" └───┴───┴───┴───┴───┴───┴───┴───┘")
         row_index -= 1
-    print("  A   B   C   D   E   F   G   H")
+    print("   A   B   C   D   E   F   G   H")
