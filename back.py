@@ -84,3 +84,41 @@ def able_to_go(figure: str, start: str):
         if is_empty(current_row - 1, current_index):
             abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - 1)))
         return abilities
+
+
+def able_to_eat(figure: str, start: str):
+    abilities = []
+    current_index = letter_dictionary[start[0:1]]
+    current_row = 8 - int(start[1:2])
+    if figure == black_pawn:
+        try:
+            if not is_empty(current_row + 1, current_index + 1):
+                abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 1)))
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+        try:
+            if not is_empty(current_row + 1, current_index - 1):
+                abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 1)))
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+    if figure == white_pawn:
+        try:
+            if not is_empty(current_row - 1, current_index + 1):
+                abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 1)))
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+        try:
+            if not is_empty(current_row - 1, current_index - 1):
+                abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 1)))
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+
+    return abilities

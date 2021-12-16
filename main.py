@@ -35,7 +35,6 @@ def is_present(string: str) -> bool:
 
 
 def not_null(string: str):
-
     if get_figure(string) == 0:
         return True
     else:
@@ -58,7 +57,7 @@ def not_enemy(string: str):
 while True:
 
     if count != 0:
-        os.system("cls")
+        os.system("clear")
 
     generate_field()
     if count % 2 == 0:
@@ -70,7 +69,7 @@ while True:
 
     if is_present(start) and not not_null(start) and not_enemy(start):
         figure = get_figure(start)
-    elif not is_present(start):
+    elif is_present(start) and not_null(start):
         print("Такой фигуры не существует, попробуйте ещё раз!")
         time.sleep(2)
         count -= 1
@@ -84,11 +83,18 @@ while True:
     print("Сделайте ход: ")
     end = input()
     if is_present(end):
-        if end in back.able_to_go(figure, start):
-            _index = start[0:1]
-            current_row = 8 - int(start[1:2])
-            field[current_row, current_index] = 0
-            field
+        if end in back.able_to_go(figure, start) or end in back.able_to_eat(figure, start):
+            start_index = start[0:1]
+            start_row = 8 - int(start[1:2])
+            end_index = end[0:1]
+            end_row = 8 - int(end[1:2])
+            field[start_row][letter_dictionary[start_index]] = 0
+            field[end_row][letter_dictionary[end_index]] = figure
+        else:
+            print("Вы не можете сделать такой ход, попробуйте ещё раз!")
+            time.sleep(2)
+            count -= 1
+            continue
 
     else:
         print("Такого хода не существует, попробуйте ещё раз!")
