@@ -118,6 +118,42 @@ def able_to_go(figure: str, start: str):
                 abilities.append(numbers_dictionary[right_y] + str(8 - horizontal_x))
             else:
                 break
+    if figure == black_bishop or figure == white_bishop:
+        # возможность ходить вправо вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if is_empty(current_row - i, current_index + i):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+            else:
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if is_empty(current_row - i, current_index - i):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+            else:
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if is_empty(current_row + i, current_index + i):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+            else:
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i> 7:
+                break
+            if is_empty(current_row + i, current_index - i):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+            else:
+                break
 
     return abilities
 
@@ -210,4 +246,89 @@ def able_to_eat(figure: str, start: str):
             elif not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
                 break
 
+    if figure == black_bishop:
+
+        # возможность есть враво вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index + i) and not field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index + i) and field[current_row - i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index - i) and not field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index - i) and field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index + i) and not field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index + i) and field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+    if figure == white_bishop:
+        # возможность есть враво вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index + i) and field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index + i) and not field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index - i) and field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index + i) and field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index - i) and field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
     return abilities
