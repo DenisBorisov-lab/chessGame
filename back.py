@@ -157,19 +157,30 @@ def able_to_eat(figure: str, start: str):
         except KeyError:
             pass
     if figure == white_rook:
-        for i in range(current_row, 0, -1):
-            if not is_empty(current_row - i, current_index) and field[current_row - i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - i)))
-            elif is_empty(current_row - i, current_index) and not field[current_row - i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+        # обзор фигуры которую можно съесть по вертикали
+        for i in range(current_row + 1, 8):
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
                 break
-        for i in range(current_row, 8):
-            if not is_empty(current_row + i, current_index) and field[current_row + i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - i)))
-            elif is_empty(current_row + i, current_index) and not field[current_row + i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
                 break
-        for i in range(current_index, )
-
-
-
-
+        for i in range(current_row - 1, -1, -1):
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
+                break
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index + 1, 8):
+            if not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index - 1, -1, -1):
+            if not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+            
     return abilities
