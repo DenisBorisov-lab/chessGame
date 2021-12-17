@@ -83,7 +83,9 @@ while True:
     print("Сделайте ход: ")
     end = input()
     if is_present(end):
-        if end in back.able_to_go(figure, start) or end in back.able_to_eat(figure, start):
+        to_go = back.able_to_go(figure, start)
+        to_eat = back.able_to_eat(figure, start);
+        if end in to_go or end in to_eat:
             start_index = start[0:1]
             start_row = 8 - int(start[1:2])
             end_index = end[0:1]
