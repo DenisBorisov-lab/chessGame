@@ -48,7 +48,7 @@ def not_enemy(string: str):
         else:
             return False
     else:
-        if get_figure(string) in "♚ ♚ ♜ ♝ ♞ ♟".split(" "):
+        if get_figure(string) in "♚ ♛ ♜ ♝ ♞ ♟".split(" "):
             return True
         else:
             return False
@@ -82,14 +82,16 @@ while True:
 
     print("Сделайте ход: ")
     end = input()
+    done_figure = ""
     if is_present(end):
         to_go = back.able_to_go(figure, start)
-        to_eat = back.able_to_eat(figure, start);
+        to_eat = back.able_to_eat(figure, start)
         if end in to_go or end in to_eat:
             start_index = start[0:1]
             start_row = 8 - int(start[1:2])
             end_index = end[0:1]
             end_row = 8 - int(end[1:2])
+            done_figure = str(field[end_row][letter_dictionary[end_index]])
             field[start_row][letter_dictionary[start_index]] = 0
             field[end_row][letter_dictionary[end_index]] = figure
         else:
@@ -103,3 +105,13 @@ while True:
         time.sleep(2)
         count -= 1
         continue
+
+    if done_figure == "♔":
+        generate_field()
+        print("Шах и мат, белые выиграли!")
+        break
+    elif done_figure == "♚":
+        generate_field()
+        print("Шах и мат, чёрные выиграли!")
+        break
+

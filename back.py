@@ -8,7 +8,7 @@ black_bishop = '♗'
 black_knight = '♘'
 black_pawn = '♙'
 white_king = '♚'
-white_queen = '♚'
+white_queen = '♛'
 white_rook = '♜'
 white_bishop = '♝'
 white_knight = '♞'
@@ -64,6 +64,14 @@ def is_empty(x, y):
         return True
     else:
         return False
+
+
+def is_present(x: int, y: int):
+    if x < 0 or y < 0:
+        return False
+    if x > 7 or y > 7:
+        return False
+    return True
 
 
 def able_to_go(figure: str, start: str):
@@ -148,13 +156,118 @@ def able_to_go(figure: str, start: str):
 
         # возможность ходить вниз влево
         for i in range(1, current_index + 1):
-            if current_row + i> 7:
+            if current_row + i > 7:
                 break
             if is_empty(current_row + i, current_index - i):
                 abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
             else:
                 break
+    if figure == white_knight or figure == black_knight:
+        if is_present(current_row + 2, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 2)))
+        if is_present(current_row + 2, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 2)))
+        if is_present(current_row + 1, current_index + 2):
+            abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index + 2):
+            abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row - 1)))
+        if is_present(current_row + 1, current_index - 2):
+            abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index - 2):
+            abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row - 1)))
+        if is_present(current_row - 2, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 2)))
+        if is_present(current_row - 2, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 2)))
 
+    if figure == white_king or figure == black_king:
+        if is_present(current_row + 1, current_index) and is_empty(current_row + 1, current_index):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index) and is_empty(current_row - 1, current_index):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - 1)))
+        if is_present(current_row, current_index + 1) and is_empty(current_row, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - current_row))
+        if is_present(current_row, current_index - 1) and is_empty(current_row, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - current_row))
+        if is_present(current_row + 1, current_index + 1) and is_empty(current_row + 1, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 1)))
+        if is_present(current_row + 1, current_index - 1) and is_empty(current_row + 1, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index + 1) and is_empty(current_row - 1, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 1)))
+        if is_present(current_row - 1, current_index - 1) and is_empty(current_row - 1, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 1)))
+    if figure == white_queen or figure == black_queen:
+        # возможность ходить вправо вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if is_empty(current_row - i, current_index + i):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+            else:
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if is_empty(current_row - i, current_index - i):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+            else:
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if is_empty(current_row + i, current_index + i):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+            else:
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if is_empty(current_row + i, current_index - i):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+            else:
+                break
+                # движение вверх
+            up_x = current_row
+            vertical_y = current_index
+            while up_x > 0:
+                up_x -= 1
+                if is_empty(up_x, vertical_y):
+                    abilities.append(numbers_dictionary[vertical_y] + str(8 - up_x))
+                else:
+                    break
+            # движение вниз
+            down_x = current_row
+            while down_x < 7:
+                down_x += 1
+                if is_empty(down_x, vertical_y):
+                    abilities.append(numbers_dictionary[vertical_y] + str(8 - down_x))
+                else:
+                    break
+
+            # движение влево
+            horizontal_x = current_row
+            left_y = current_index
+            while left_y > 1:
+                left_y -= 1
+                if is_empty(horizontal_x, left_y):
+                    abilities.append(numbers_dictionary[left_y] + str(8 - horizontal_x))
+                else:
+                    break
+            # движение вправо
+            right_y = current_index
+            while right_y < 7:
+                right_y += 1
+                if is_empty(horizontal_x, right_y):
+                    abilities.append(numbers_dictionary[right_y] + str(8 - horizontal_x))
+                else:
+                    break
     return abilities
 
 
@@ -252,7 +365,9 @@ def able_to_eat(figure: str, start: str):
         for i in range(1, 7 - current_index + 1):
             if current_row - i < 0:
                 break
-            if not is_empty(current_row - i, current_index + i) and not field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            if not is_empty(current_row - i, current_index + i) and not field[current_row - i][
+                                                                            current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
                 abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
                 break
             elif not is_empty(current_row - i, current_index + i) and field[current_row - i][
@@ -263,51 +378,12 @@ def able_to_eat(figure: str, start: str):
         for i in range(1, current_index + 1):
             if current_row - i < 0:
                 break
-            if not is_empty(current_row - i, current_index - i) and not field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            if not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+                                                                            current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
                 abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
                 break
-            elif not is_empty(current_row - i, current_index - i) and field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                break
-
-        # возможность ходить вправо вниз
-        for i in range(1, 7 - current_index + 1):
-            if current_row + i > 7:
-                break
-            if not is_empty(current_row + i, current_index + i) and not field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
-                break
-            elif not is_empty(current_row + i, current_index + i) and field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                break
-
-        # возможность ходить вниз влево
-        for i in range(1, current_index + 1):
-            if current_row + i > 7:
-                break
-            if not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
-                break
-            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                break
-
-    if figure == white_bishop:
-        # возможность есть враво вверх
-        for i in range(1, 7 - current_index + 1):
-            if current_row - i < 0:
-                break
-            if not is_empty(current_row - i, current_index + i) and field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
-                break
-            elif not is_empty(current_row - i, current_index + i) and not field[current_row - i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                break
-
-        # возможность ходить влево вверх
-        for i in range(1, current_index + 1):
-            if current_row - i < 0:
-                break
-            if not is_empty(current_row - i, current_index - i) and field[current_row - i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
-                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
-                break
-            elif not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+            elif not is_empty(current_row - i, current_index - i) and field[current_row - i][
                 current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
                 break
 
@@ -315,10 +391,12 @@ def able_to_eat(figure: str, start: str):
         for i in range(1, 7 - current_index + 1):
             if current_row + i > 7:
                 break
-            if not is_empty(current_row + i, current_index + i) and field[current_row + i][current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            if not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+                                                                            current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
                 abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
                 break
-            elif not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+            elif not is_empty(current_row + i, current_index + i) and field[current_row + i][
                 current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
                 break
 
@@ -326,9 +404,277 @@ def able_to_eat(figure: str, start: str):
         for i in range(1, current_index + 1):
             if current_row + i > 7:
                 break
-            if not is_empty(current_row + i, current_index - i) and field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            if not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                            current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
                 abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
                 break
-            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+    if figure == white_bishop:
+        # возможность есть враво вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index + i) and field[current_row - i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index + i) and not field[current_row - i][
+                                                                              current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index - i) and field[current_row - i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index + i) and field[current_row + i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+                                                                              current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index - i) and field[current_row + i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+    if figure == white_knight or figure == black_knight:
+        if is_present(current_row + 2, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 2)))
+        if is_present(current_row + 2, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 2)))
+        if is_present(current_row + 1, current_index + 2):
+            abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index + 2):
+            abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row - 1)))
+        if is_present(current_row + 1, current_index - 2):
+            abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index - 2):
+            abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row - 1)))
+        if is_present(current_row - 2, current_index + 1):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 2)))
+        if is_present(current_row - 2, current_index - 1):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 2)))
+
+    if figure == white_king:
+        if is_present(current_row + 1, current_index) and not is_empty(current_row + 1, current_index) and field[current_row + 1][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index) and not is_empty(current_row - 1, current_index) and field[current_row - 1][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - 1)))
+        if is_present(current_row, current_index + 1) and not is_empty(current_row, current_index + 1) and field[current_row][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - current_row))
+        if is_present(current_row, current_index - 1) and not is_empty(current_row, current_index - 1) and field[current_row][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - current_row))
+        if is_present(current_row + 1, current_index + 1) and not is_empty(current_row + 1, current_index + 1) and field[current_row + 1][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 1)))
+        if is_present(current_row + 1, current_index - 1) and not is_empty(current_row + 1, current_index - 1) and field[current_row + 1][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index + 1) and not is_empty(current_row - 1, current_index + 1) and field[current_row - 1][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 1)))
+        if is_present(current_row - 1, current_index - 1) and not is_empty(current_row - 1, current_index - 1) and field[current_row - 1][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 1)))
+
+    if figure == black_king:
+        if is_present(current_row + 1, current_index) and not is_empty(current_row + 1, current_index) and not field[current_row + 1][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index) and not is_empty(current_row - 1, current_index) and not field[current_row - 1][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index] + str(8 - (current_row - 1)))
+        if is_present(current_row, current_index + 1) and not is_empty(current_row, current_index + 1) and not field[current_row][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - current_row))
+        if is_present(current_row, current_index - 1) and not is_empty(current_row, current_index - 1) and not field[current_row][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - current_row))
+        if is_present(current_row + 1, current_index + 1) and not is_empty(current_row + 1, current_index + 1) and not field[current_row + 1][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 1)))
+        if is_present(current_row + 1, current_index - 1) and not is_empty(current_row + 1, current_index - 1) and not field[current_row + 1][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 1)))
+        if is_present(current_row - 1, current_index + 1) and not is_empty(current_row - 1, current_index + 1) and not field[current_row - 1][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 1)))
+        if is_present(current_row - 1, current_index - 1) and not is_empty(current_row - 1, current_index - 1) and not field[current_row - 1][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+            abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 1)))
+
+    if figure == black_queen:
+        # возможность есть враво вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index + i) and not field[current_row - i][
+                                                                            current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index + i) and field[current_row - i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+                                                                            current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index - i) and field[current_row - i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+                                                                            current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index + i) and field[current_row + i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                            current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+        # обзор фигуры которую можно съесть по вертикали
+        for i in range(current_row + 1, 8):
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
+                break
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_row - 1, -1, -1):
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
+                break
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index + 1, 8):
+            if not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index - 1, -1, -1):
+            if not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+
+    if figure == white_queen:
+        # возможность есть враво вверх
+        for i in range(1, 7 - current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index + i) and field[current_row - i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index + i) and not field[current_row - i][
+                                                                              current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить влево вверх
+        for i in range(1, current_index + 1):
+            if current_row - i < 0:
+                break
+            if not is_empty(current_row - i, current_index - i) and field[current_row - i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row - i)))
+                break
+            elif not is_empty(current_row - i, current_index - i) and not field[current_row - i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить вправо вниз
+        for i in range(1, 7 - current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index + i) and field[current_row + i][
+                current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index + i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index + i) and not field[current_row + i][
+                                                                              current_index + i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+
+        # возможность ходить вниз влево
+        for i in range(1, current_index + 1):
+            if current_row + i > 7:
+                break
+            if not is_empty(current_row + i, current_index - i) and field[current_row + i][
+                current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index - i] + str(8 - (current_row + i)))
+                break
+            elif not is_empty(current_row + i, current_index - i) and not field[current_row + i][
+                                                                              current_index - i] in "♔ ♕ ♖ ♗ ♘ ♙".split(
+                " "):
+                break
+        # обзор фигуры которую можно съесть по вертикали
+        for i in range(current_row + 1, 8):
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
+                break
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_row - 1, -1, -1):
+            if not is_empty(i, current_index) and field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[current_index] + str(8 - i))
+                break
+            if not is_empty(i, current_index) and not field[i][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index + 1, 8):
+            if not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                break
+        for i in range(current_index - 1, -1, -1):
+            if not is_empty(current_row, i) and field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
+                abilities.append(numbers_dictionary[i] + str(8 - current_row))
+                break
+            elif not is_empty(current_row, i) and not field[current_row][i] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
                 break
     return abilities
