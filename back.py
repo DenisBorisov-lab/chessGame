@@ -163,21 +163,21 @@ def able_to_go(figure: str, start: str):
             else:
                 break
     if figure == white_knight or figure == black_knight:
-        if is_present(current_row + 2, current_index + 1):
+        if is_present(current_row + 2, current_index + 1) and is_empty(current_row + 2, current_index + 1):
             abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 2)))
-        if is_present(current_row + 2, current_index - 1):
+        if is_present(current_row + 2, current_index - 1) and is_empty(current_row + 2, current_index - 1):
             abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 2)))
-        if is_present(current_row + 1, current_index + 2):
+        if is_present(current_row + 1, current_index + 2) and is_empty(current_row + 1, current_index + 2):
             abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row + 1)))
-        if is_present(current_row - 1, current_index + 2):
+        if is_present(current_row - 1, current_index + 2) and is_empty(current_row - 1, current_index + 2):
             abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row - 1)))
-        if is_present(current_row + 1, current_index - 2):
+        if is_present(current_row + 1, current_index - 2) and is_empty(current_row + 1, current_index - 2):
             abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row + 1)))
-        if is_present(current_row - 1, current_index - 2):
+        if is_present(current_row - 1, current_index - 2) and is_empty(current_row - 1, current_index - 2):
             abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row - 1)))
-        if is_present(current_row - 2, current_index + 1):
+        if is_present(current_row - 2, current_index + 1) and is_empty(current_row - 2, current_index + 1):
             abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 2)))
-        if is_present(current_row - 2, current_index - 1):
+        if is_present(current_row - 2, current_index - 1) and is_empty(current_row - 2, current_index - 1):
             abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 2)))
 
     if figure == white_king or figure == black_king:
@@ -467,24 +467,25 @@ def able_to_eat(figure: str, start: str):
                 " "):
                 break
 
-    if figure == white_knight or figure == black_knight:
-        if is_present(current_row + 2, current_index + 1):
+    if figure == white_knight:
+        if is_present(current_row + 2, current_index + 1) and not is_empty(current_row + 2, current_index + 1) and field[current_row + 2][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row + 2)))
-        if is_present(current_row + 2, current_index - 1):
+        if is_present(current_row + 2, current_index - 1) and not is_empty(current_row + 2, current_index - 1) and field[current_row + 2][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row + 2)))
-        if is_present(current_row + 1, current_index + 2):
+        if is_present(current_row + 1, current_index + 2) and not is_empty(current_row + 1, current_index + 2) and field[current_row + 1][current_index + 2] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row + 1)))
-        if is_present(current_row - 1, current_index + 2):
+        if is_present(current_row - 1, current_index + 2) and not is_empty(current_row - 1, current_index + 2) and field[current_row - 1][current_index + 2] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index + 2] + str(8 - (current_row - 1)))
-        if is_present(current_row + 1, current_index - 2):
+        if is_present(current_row + 1, current_index - 2) and not is_empty(current_row + 1, current_index - 2) and field[current_row + 1][current_index - 2] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row + 1)))
-        if is_present(current_row - 1, current_index - 2):
+        if is_present(current_row - 1, current_index - 2) and not is_empty(current_row - 1, current_index - 2) and field[current_row - 1][current_index - 2] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index - 2] + str(8 - (current_row - 1)))
-        if is_present(current_row - 2, current_index + 1):
+        if is_present(current_row - 2, current_index + 1) and not is_empty(current_row - 2, current_index + 1) and field[current_row - 2][current_index + 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index + 1] + str(8 - (current_row - 2)))
-        if is_present(current_row - 2, current_index - 1):
+        if is_present(current_row - 2, current_index - 1) and not is_empty(current_row - 2, current_index - 1) and field[current_row - 2][current_index - 1] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index - 1] + str(8 - (current_row - 2)))
-
+    if figure == black_knight:
+        pass
     if figure == white_king:
         if is_present(current_row + 1, current_index) and not is_empty(current_row + 1, current_index) and field[current_row + 1][current_index] in "♔ ♕ ♖ ♗ ♘ ♙".split(" "):
             abilities.append(numbers_dictionary[current_index] + str(8 - (current_row + 1)))
